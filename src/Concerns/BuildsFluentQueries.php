@@ -220,6 +220,24 @@ trait BuildsFluentQueries
     protected int $size = Builder::DEFAULT_LIMIT;
 
     /**
+     * Runtime field
+     *
+     * A runtime field is a field that is evaluated at query time. Runtime fields enable you to:
+     * Add fields to existing documents without reindexing your data
+     * Start working with your data without understanding how it’s structured
+     * Override the value returned from an indexed field at query time
+     * Define fields for a specific use without modifying the underlying schema
+     *
+     * You access runtime fields from the search API like any other field, and Elasticsearch sees runtime fields no
+     * differently. You can define runtime fields in the index mapping or in the search request. Your choice, which
+     * is part of the inherent flexibility of runtime fields.
+     *
+     * @var array
+     * @see https://www.elastic.co/guide/en/elasticsearch/reference/8.6/search-fields.html#script-fields
+     */
+    protected array $scriptFields = [];
+
+    /**
      * Query sort fields
      *
      * @var array
@@ -436,6 +454,30 @@ trait BuildsFluentQueries
         $this->body = $body;
 
         return $this;
+    }
+
+    /**
+     * Sets runtime fields.
+     *
+     * @param array $runtimeFields
+     *
+     * @return Builder<T>&static
+     */
+    public function runtimeFields(array $runtimeFields = []): static
+    {
+        $this->runtimeFields = $runtimeFields;
+
+        return $this;
+    }
+
+    /**
+     * Get the runtime fields
+     *
+     * @return array|null
+     */
+    public function getRuntimeFields(): array|null
+    {
+        return $this->runtimeFields;
     }
 
     /**

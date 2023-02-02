@@ -121,6 +121,7 @@ class Builder implements Arrayable, JsonSerializable, Jsonable, IteratorAggregat
      * @var T
      */
     private Model $model;
+    private array $runtimeFields;
 
     /**
      * Creates a new query builder instance.
@@ -295,6 +296,10 @@ class Builder implements Arrayable, JsonSerializable, Jsonable, IteratorAggregat
 
         if ($index = $query->getIndex()) {
             $parameters['index'] = $index;
+        }
+
+        if ($runtimeFields = $query->getRuntimeFields()) {
+            $parameters['script_fields'] = $runtimeFields;
         }
 
         return $parameters;
